@@ -5,7 +5,7 @@ use select::document::Document;
 use select::predicate::{Name};
 use std::collections::HashMap;
 
-fn get_next_graph_data(x: &str) -> std::io::Result<()> {
+fn get_next_graph_data(x: &str) {
     // Extract just the json data from the javascript
     let i = x.find("chart: {\n").unwrap();
     let j = x.rfind(");").unwrap();
@@ -22,9 +22,8 @@ fn get_next_graph_data(x: &str) -> std::io::Result<()> {
     // println!("{:?}", content);
     let mut content = res.unwrap();
 
-    let mut file = File::create("chart.png")?;
+    let mut file = File::create("chart.png").expect("Failed creating file");
     io::copy(&mut content, &mut file).expect("Unable to copy data");
-    Ok(())
 
 }
 
@@ -53,16 +52,16 @@ fn main() {
     let mut text = script.unwrap().text();
     get_next_graph_data(&text);
 
-    // script = iterable.next();
-    // text = script.unwrap().text();
-    // // println!("{:?}", text);
-    // get_next_graph_data(&text);
+    script = iterable.next();
+    text = script.unwrap().text();
+    // println!("{:?}", text);
+    get_next_graph_data(&text);
 
-    // script = iterable.next();
-    // text = script.unwrap().text();
-    // get_next_graph_data(&text);
+    script = iterable.next();
+    text = script.unwrap().text();
+    get_next_graph_data(&text);
 
-    // script = iterable.next();
-    // text = script.unwrap().text();
-    // get_next_graph_data(&text);
+    script = iterable.next();
+    text = script.unwrap().text();
+    get_next_graph_data(&text);
 }
